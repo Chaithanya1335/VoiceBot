@@ -1,7 +1,14 @@
 import speech_recognition
-import pyttsx3
+import openai
 from langchain_groq.chat_models import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+groq_api_key = os.getenv('GROQ_API_KEY')
 
 def take_speech():
 
@@ -12,7 +19,7 @@ def take_speech():
 
     """
 
-    sr = speech_recognition().Recognizer()
+    sr = speech_recognition.Recognizer()
 
     with speech_recognition.Microphone() as source:
         
@@ -28,42 +35,54 @@ def take_speech():
             return None
     return query
 
-        
 
-def text_to_voice(text:str):
-    """
-    This function takes a string as input and converts it into speech.
-    """
-    # initializing the voice to speak
-    engine = pyttsx3.init('sapi5')
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice', voices[0].id)
-
-    engine.say(text)
-    engine.runAndWait()
-
-    engine.save_to_file(text=text,filename='speech.mp4')
-
-    return 'speech.mp4'
-
-
-
-def get_llm_model(groq_api_key):
-    """
-    This function takes a Groq API key as input and returns a LLM model.
-    """
-    # initializing the LLM model
-
-    llm_model = ChatGroq(
-    model='llama3-8b-8192',  
-    temperature=0.7,  # Make responses more natural and engaging
-    api_key=groq_api_key
-    )
-
+def get_chatgroq_model(groq_api_key):
+    if not groq_api_key:
+        raise ValueError("❌ Error: GROQ_API_KEY is missing. Please check your .env file.")
     
-
+    
+    llm_model = ChatGroq(
+        model="llama3-8b-8192", 
+        temperature=0.7, 
+        api_key=groq_api_key
+    )
+    
     return llm_model
 
+def get_openai_model(api_key, model="gpt-3.5-turbo"):
+    """
+    Initializes and returns an OpenAI LLM model.
+    
+    Parameters:
+        api_key (str): OpenAI API key.
+        model (str): The model to use (default: "gpt-4").
+
+    Returns:
+        function: A function that takes a prompt and returns a response.
+    """
+    openai.api_key = api_key
+
+    def chat_with_model(prompt):
+        """
+        Generates a response from OpenAI's model.
+        
+        Parameters:
+            prompt (str): The input prompt for the model.
+
+        Returns:
+            str: The generated response from the model.
+        """
+        try:
+            response = openai.ChatCompletion.create(
+                model=model,
+                messages=[{"role": "system", "content": "You are a helpful assistant."},
+                          {"role": "user", "content": prompt}]
+            )
+            return response["choices"][0]["message"]["content"]
+        except Exception as e:
+            return f"⚠️ Error: {e}"
+
+    return chat_with_model
 
 
 def response(llm_model,query):
