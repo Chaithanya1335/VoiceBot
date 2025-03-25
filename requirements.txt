@@ -1,0 +1,11 @@
+SpeechRecognition
+streamlit
+pipwin
+gtts
+pyaudio
+pyttsx3
+openai
+python-dotenv
+langchain
+langchain_groq
+
