@@ -1,10 +1,7 @@
 SpeechRecognition
 streamlit
-pipwin
 gtts
-pyaudio
-pyttsx3
-openai
+openai==0.28
 python-dotenv
 langchain
 langchain_groq
