@@ -63,16 +63,18 @@ def take_input_from_browser():
                     };
 
                     recognition.onerror = function(event) {
-                        resolve("❌ Error: " + event.error);
+                        console.error("Speech recognition error:", event.error);
+                        resolve("");  // Return empty string on error
                     };
 
                     recognition.onend = function() {
-                        resolve("");  // Handles case when user says nothing
+                        resolve("");  // Handle case when user says nothing
                     };
 
                     recognition.start();
                 } catch (error) {
-                    resolve("❌ Speech Recognition not supported.");
+                    console.error("Speech Recognition not supported in this browser.");
+                    resolve("");  // Return empty if speech recognition fails
                 }
             });
         }
@@ -80,7 +82,9 @@ def take_input_from_browser():
     """
 
     speech_text = st_javascript(script)
-    return speech_text if speech_text and "Error" not in speech_text else None
+
+    # Ensure speech_text is valid before returning
+    return speech_text if speech_text and speech_text.strip() else None
 
 
 
