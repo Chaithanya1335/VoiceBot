@@ -47,7 +47,7 @@ from streamlit_javascript import st_javascript
 import streamlit as st
 from streamlit_js_eval import streamlit_js_eval
 # Function to capture speech from browser
-def get_speech_input():
+def take_input_from_browser():
     script = """
     async function getSpeech() {
         return new Promise((resolve) => {
