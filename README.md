@@ -1,86 +1,40 @@
-# 🎙️ VoiceBot
+# 🎙️ VoiceBot - AI Chat Assistant  
 
-VoiceBot is a Streamlit-based AI-powered chatbot that allows users to have voice-based conversations with either **Groq** or **OpenAI** models.
+🚀 **Live Demo:** https://chaithanya1335-voicebot-app-gincmy.streamlit.app/  
 
-## 🚀 Features
-- Supports **Groq** and **OpenAI** models
-- Voice input using **speech-to-text**
-- Interactive chatbot experience
-- Persistent chat history
-- API provider selection via a separate settings page
+## 🌟 Overview  
+VoiceBot is an AI-powered chatbot that lets users interact using **voice and text**.  
+It supports **Groq & OpenAI models**, allowing you to choose your preferred provider.  
 
----
-
-## 📌 Prerequisites
-Ensure you have the following installed:
-- **Python 3.8+**
-- **pip** (Python package manager)
+## 🔥 Features  
+✅ **Voice & Text Input**  
+✅ **Supports Groq & OpenAI models**  
+✅ **User-Friendly Web Interface** (No installation required!)  
 
 ---
 
-## 📥 Installation
+## 🚀 How to Use  
+### **Step 1: Open the App**  
+🔗 **[Click here](https://your-app-name.streamlit.app)** to open the chatbot.  
 
-1. **Clone the repository**
-```sh
- git clone https://github.com/your-repo/voicebot.git
- cd voicebot
-```
-
-2. **Create a virtual environment (Optional but recommended)**
-```sh
-python -m venv venv  # Windows/Linux/Mac
-source venv/bin/activate  # macOS/Linux
-venv\Scripts\activate  # Windows
-```
-
-3. **Install required dependencies**
-```sh
-pip install -r requirements.txt
-```
+### **Step 2: Enter API Key**  
+- The app will **ask for an API key** before you can chat.  
+- Choose your provider: **Groq or OpenAI**.  
+- Get your API key from one of the following:  
+  - **[OpenAI](https://platform.openai.com/signup) → Generate API Key**  
+  - **[Groq](https://groq.com/) → Generate API Key**  
+- Paste your API key into the **Settings Page** and start chatting!  
 
 ---
 
-## 🔑 Obtaining API Keys
-
-To use the chatbot, you need API keys for **Groq** or **OpenAI**.
-
-### **Groq API Key**
-1. Go to [Groq API](https://groq.com/)
-2. Sign in or create an account
-3. Navigate to **API Keys** and generate a new key
-
-### **OpenAI API Key**
-1. Go to [OpenAI API](https://platform.openai.com/)
-2. Sign in or create an account
-3. Navigate to **API Keys** and generate a new key
+## ⚠️ API Key Requirements  
+- **Your API key is required to access the chatbot.**  
+- **We do NOT store your API key**—it remains secure in your session.  
+- Free-tier API limits may apply, depending on the provider.  
 
 ---
 
-## 🛠️ Running the App
-
-1. **Run the Streamlit app**
-```sh
-streamlit run app.py
-```
-
-2. **Configure API Provider:**
-   - Open the **Settings** page (⚙️)
-   - Select either **Groq** or **OpenAI**
-   - Enter the respective **API Key**
-
-3. **Start Chatting!** 🎤
-   - Click the **"🎤 Speak"** button to start a conversation
-   - View the chat history dynamically updated in the UI
-
----
-
-## 🗑️ Clearing Chat History
-If you want to clear the conversation history, simply click the **"🗑️ Clear Chat"** button.
-
----
-
-## 👥 Contributors
-- **Mangammagari Gnana Chaithanya**
-
-
-
+## 🛠️ Tech Stack  
+- **Python + Streamlit** for UI  
+- **SpeechRecognition, gTTS, Pyttsx3** for voice  
+- **OpenAI, Groq API** for AI responses  
