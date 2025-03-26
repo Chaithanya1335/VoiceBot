@@ -1,5 +1,9 @@
 import streamlit as st
 from Common import take_input, get_chatgroq_model, get_openai_model, response
+import os
+os.system("apt-get install -y portaudio19-dev")
+import pyaudio
+
 
 # -----------------------------
 # **App Configuration**
