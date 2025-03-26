@@ -4,6 +4,8 @@ from langchain_groq.chat_models import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 import os
 from dotenv import load_dotenv
+os.system("apt-get install -y portaudio19-dev")
+import pyaudio
 
 load_dotenv()
 
