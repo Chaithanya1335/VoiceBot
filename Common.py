@@ -47,13 +47,15 @@ from streamlit_javascript import st_javascript
 import streamlit as st
 from streamlit_js_eval import streamlit_js_eval
 # Function to capture speech from browser
-def take_input_from_browser():
+def get_speech_input():
     script = """
     async function getSpeech() {
         return new Promise((resolve) => {
             try {
+                console.log("Speech recognition started");
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if (!SpeechRecognition) {
+                    console.log("Speech recognition not supported");
                     resolve("❌ Speech Recognition not supported in this browser.");
                     return;
                 }
@@ -64,29 +66,40 @@ def take_input_from_browser():
                 recognition.maxAlternatives = 1;
 
                 recognition.onresult = function(event) {
+                    console.log("Speech recognition result:", event.results[0][0].transcript);
                     resolve(event.results[0][0].transcript);
                 };
 
                 recognition.onerror = function(event) {
+                    console.error("Speech recognition error:", event.error);
                     resolve("❌ Error: " + event.error);
                 };
 
                 recognition.onspeechend = function() {
+                    console.log("Speech ended");
                     recognition.stop();
                 };
 
-                recognition.start();
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    console.log("Microphone access granted");
+                    recognition.start();
+                })
+                .catch(function(err) {
+                    console.error("Microphone access error:", err);
+                    resolve("❌ Microphone access denied or error: " + err);
+                });
+
             } catch (error) {
-                resolve("❌ Speech Recognition failed.");
+                console.error("Speech recognition failure:", error);
+                resolve("❌ Speech Recognition failed: " + error);
             }
         });
     }
     getSpeech();
     """
 
-    # Run JavaScript and return output
-    speech_text = streamlit_js_eval(script=script, key="speech_input")
-    return speech_text if speech_text else "❌ No speech detected."
+    return streamlit_js_eval(script=script, key="speech", allow_unsafe_jscode=True)
 
 
 
