@@ -35,6 +35,46 @@ def take_input():
             print("Could not connect to the speech recognition service.")
             return None
 
+import streamlit as st
+from streamlit_javascript import st_javascript
+
+def take_input_from_browser():
+    """
+    Uses the browser's built-in speech recognition instead of `pyaudio` and `speech_recognition`.
+    """
+    speech_text = st_javascript(
+        """
+        async function getSpeech() {
+            return new Promise((resolve) => {
+                try {
+                    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                    recognition.lang = "en-US";
+                    recognition.interimResults = false;
+                    recognition.maxAlternatives = 1;
+
+                    recognition.onresult = function(event) {
+                        var speechResult = event.results[0][0].transcript;
+                        recognition.stop();
+                        resolve(speechResult);
+                    };
+
+                    recognition.onerror = function(event) {
+                        console.error("Speech recognition error", event.error);
+                        resolve("");  // Return empty string on error
+                    };
+
+                    recognition.start();
+                } catch (error) {
+                    console.error("Speech Recognition not supported in this browser.");
+                    resolve("");  // Return empty string if not supported
+                }
+            });
+        }
+        getSpeech();
+        """
+    )
+    
+    return speech_text if speech_text else "❌ No speech detected. Try again."
 
 
 def get_chatgroq_model(groq_api_key):
