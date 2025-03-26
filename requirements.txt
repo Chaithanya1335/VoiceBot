@@ -5,7 +5,6 @@ openai==0.28
 python-dotenv
 langchain
 langchain_groq
-pyaudio
 portaudio19-dev
 
 
