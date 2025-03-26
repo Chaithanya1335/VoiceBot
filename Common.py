@@ -1,12 +1,8 @@
-import speech_recognition
 import openai
 from langchain_groq.chat_models import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 import os
 from dotenv import load_dotenv
-import sounddevice as sd
-import numpy as np
-import scipy.io.wavfile as wav
 import speech_recognition as sr
 
 load_dotenv()
@@ -17,37 +13,26 @@ groq_api_key = os.getenv('GROQ_API_KEY')
 
 def take_input():
     """
-    Captures user speech using sounddevice, saves it, and converts it to text using Google Web Speech API.
+    This function captures user speech and converts it to text using Google Web Speech API.
     """
 
     recognizer = sr.Recognizer()
-    samplerate = 44100  # Standard sampling rate
-    duration = 5  # Record for 5 seconds
 
-    print("Please say something...")
+    with sr.Microphone() as source:
+        print("Please say something...")
 
-    # Record audio with sounddevice
-    audio_data = sd.rec(int(samplerate * duration), samplerate=samplerate, channels=1, dtype=np.int16)
-    sd.wait()  # Wait for recording to complete
-
-    # Save as WAV file
-    wav.write("input_audio.wav", samplerate, audio_data)
-
-    # Process audio with speech recognition
-    with sr.AudioFile("input_audio.wav") as source:
-        recognizer.adjust_for_ambient_noise(source)
-        audio = recognizer.record(source)
+        recognizer.adjust_for_ambient_noise(source)  # Reduce background noise
+        audio = recognizer.listen(source)
 
         try:
-            query = recognizer.recognize_google(audio)
+            query = recognizer.recognize_google(audio)  # Uses Google's online STT
             return query
         except sr.UnknownValueError:
             print("Sorry, I didn't catch that.")
             return None
         except sr.RequestError:
             print("Could not connect to the speech recognition service.")
-            return None
-
+            return None 
 
 
 
