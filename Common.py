@@ -45,17 +45,20 @@ import streamlit as st
 from streamlit_javascript import st_javascript
 
 import streamlit as st
-from streamlit_javascript import st_javascript
+from streamlit_js_eval import streamlit_js_eval
 
 def take_input_from_browser():
-    """
-    Uses the browser's built-in speech recognition to capture user voice input.
-    """
     script = """
     async function getSpeech() {
         return new Promise((resolve) => {
             try {
-                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    resolve("❌ Speech Recognition not supported in this browser.");
+                    return;
+                }
+
+                const recognition = new SpeechRecognition();
                 recognition.lang = "en-US";
                 recognition.interimResults = false;
                 recognition.maxAlternatives = 1;
@@ -65,8 +68,7 @@ def take_input_from_browser():
                 };
 
                 recognition.onerror = function(event) {
-                    console.error("Speech Recognition Error:", event.error);
-                    resolve("");  // Return empty string on error
+                    resolve("❌ Error: " + event.error);
                 };
 
                 recognition.onspeechend = function() {
@@ -75,20 +77,18 @@ def take_input_from_browser():
 
                 recognition.start();
             } catch (error) {
-                console.error("Speech Recognition Not Supported:", error);
-                resolve("");
+                resolve("❌ Speech Recognition failed.");
             }
         });
     }
-    await getSpeech();
+    getSpeech();
     """
 
-    speech_text = st_javascript(script)
-    
-    if speech_text and speech_text.strip():
-        return speech_text  # Return recognized text
-    else:
-        return "❌ No speech detected. Please try again."
+    speech_text = streamlit_js_eval(script=script, key="speech_input")
+    return speech_text if speech_text and speech_text.strip() else "❌ No speech detected."
+
+
+
 
 
 
