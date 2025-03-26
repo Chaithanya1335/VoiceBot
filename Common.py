@@ -44,47 +44,52 @@ from streamlit_javascript import st_javascript
 import streamlit as st
 from streamlit_javascript import st_javascript
 
+import streamlit as st
+from streamlit_javascript import st_javascript
+
 def take_input_from_browser():
     """
-    Uses browser's built-in speech recognition to capture user voice input.
-    Returns recognized speech as text.
+    Uses the browser's built-in speech recognition to capture user voice input.
     """
     script = """
-        async function getSpeech() {
-            return new Promise((resolve) => {
-                try {
-                    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                    recognition.lang = "en-US";
-                    recognition.interimResults = false;
-                    recognition.maxAlternatives = 1;
+    async function getSpeech() {
+        return new Promise((resolve) => {
+            try {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = "en-US";
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
 
-                    recognition.onresult = function(event) {
-                        resolve(event.results[0][0].transcript);
-                    };
+                recognition.onresult = function(event) {
+                    resolve(event.results[0][0].transcript);
+                };
 
-                    recognition.onerror = function(event) {
-                        console.error("Speech recognition error:", event.error);
-                        resolve("");  // Return empty string on error
-                    };
+                recognition.onerror = function(event) {
+                    console.error("Speech Recognition Error:", event.error);
+                    resolve("");  // Return empty string on error
+                };
 
-                    recognition.onend = function() {
-                        resolve("");  // Handle case when user says nothing
-                    };
+                recognition.onspeechend = function() {
+                    recognition.stop();
+                };
 
-                    recognition.start();
-                } catch (error) {
-                    console.error("Speech Recognition not supported in this browser.");
-                    resolve("");  // Return empty if speech recognition fails
-                }
-            });
-        }
-        return await getSpeech();
+                recognition.start();
+            } catch (error) {
+                console.error("Speech Recognition Not Supported:", error);
+                resolve("");
+            }
+        });
+    }
+    await getSpeech();
     """
 
     speech_text = st_javascript(script)
+    
+    if speech_text and speech_text.strip():
+        return speech_text  # Return recognized text
+    else:
+        return "❌ No speech detected. Please try again."
 
-    # Ensure speech_text is valid before returning
-    return speech_text if speech_text and speech_text.strip() else None
 
 
 
