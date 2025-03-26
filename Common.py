@@ -46,7 +46,7 @@ from streamlit_javascript import st_javascript
 
 import streamlit as st
 from streamlit_js_eval import streamlit_js_eval
-
+# Function to capture speech from browser
 def take_input_from_browser():
     script = """
     async function getSpeech() {
@@ -84,8 +84,9 @@ def take_input_from_browser():
     getSpeech();
     """
 
+    # Run JavaScript and return output
     speech_text = streamlit_js_eval(script=script, key="speech_input")
-    return speech_text if speech_text and speech_text.strip() else "❌ No speech detected."
+    return speech_text if speech_text else "❌ No speech detected."
 
 
 
