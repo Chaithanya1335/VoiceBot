@@ -2,7 +2,7 @@ import speech_recognition
 import openai
 from langchain_groq.chat_models import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
-
+from streamlit_javascript import st_javascript
 import os
 from dotenv import load_dotenv
 

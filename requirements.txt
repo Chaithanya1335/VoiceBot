@@ -7,3 +7,4 @@ langchain
 langchain_groq
 pyaudio
 pipwin
+streamlit_javascript
