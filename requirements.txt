@@ -6,6 +6,4 @@ python-dotenv
 langchain
 langchain_groq
 
-import os
-os.system("apt-get install -y portaudio19-dev")
-import pyaudio
+
