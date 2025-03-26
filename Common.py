@@ -10,30 +10,31 @@ load_dotenv()
 
 groq_api_key = os.getenv('GROQ_API_KEY')
 
+import speech_recognition as sr
+
 def take_speech():
-
     """
-    
-    This function takes user input from the microphone 
-    and returns the query as a string.
-
+    This function captures user speech and converts it to text using Google Web Speech API.
     """
 
-    sr = speech_recognition.Recognizer()
+    recognizer = sr.Recognizer()
 
-    with speech_recognition.Microphone() as source:
-        
-        print("Please Say Something......")
+    with sr.Microphone() as source:
+        print("Please say something...")
 
-        sr.pause_threshold = 1
-        audio = sr.listen(source)
+        recognizer.adjust_for_ambient_noise(source)  # Reduce background noise
+        audio = recognizer.listen(source)
 
         try:
-            query = sr.recognize_google(audio)
-        except Exception as e:
+            query = recognizer.recognize_google(audio)  # Uses Google's online STT
+            return query
+        except sr.UnknownValueError:
             print("Sorry, I didn't catch that.")
             return None
-    return query
+        except sr.RequestError:
+            print("Could not connect to the speech recognition service.")
+            return None
+
 
 
 def get_chatgroq_model(groq_api_key):
