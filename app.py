@@ -1,5 +1,5 @@
 import streamlit as st
-from Common import take_input_from_browser, get_chatgroq_model, get_openai_model, response
+from Common import take_input, get_chatgroq_model, get_openai_model, response
 
 # -----------------------------
 # **App Configuration**
@@ -42,7 +42,7 @@ st.subheader("🎤 Speak to the AI")
 
 if st.button("🎙️ Start Listening"):
     with st.spinner("🎤 Listening... Please speak clearly"):
-        speech_text = take_input_from_browser()  # Taking voice input from browser
+        speech_text = take_input()  # Taking voice input from browser
 
     if speech_text and speech_text.strip():  # Ensure input is not empty
         st.success(f"✅ **You said:** {speech_text}")
