@@ -41,9 +41,13 @@ from streamlit_javascript import st_javascript
 import streamlit as st
 from streamlit_javascript import st_javascript
 
+import streamlit as st
+from streamlit_javascript import st_javascript
+
 def take_input_from_browser():
     """
     Uses browser's built-in speech recognition to capture user voice input.
+    Returns recognized speech as text.
     """
     script = """
         async function getSpeech() {
@@ -62,17 +66,22 @@ def take_input_from_browser():
                         resolve("❌ Error: " + event.error);
                     };
 
+                    recognition.onend = function() {
+                        resolve("");  // Handles case when user says nothing
+                    };
+
                     recognition.start();
                 } catch (error) {
                     resolve("❌ Speech Recognition not supported.");
                 }
             });
         }
-        await getSpeech();
+        return await getSpeech();
     """
 
     speech_text = st_javascript(script)
-    return speech_text
+    return speech_text if speech_text and "Error" not in speech_text else None
+
 
 
 
