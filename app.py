@@ -42,27 +42,34 @@ st.subheader("🎤 Speak to the AI")
 
 if st.button("🎙️ Start Listening"):
     with st.spinner("🎤 Listening... Please speak clearly"):
-        speech_text = take_input_from_browser()  # Taking voice input using function from Common.py
+        speech_text = take_input_from_browser()  # Taking voice input from browser
 
-    if speech_text:
+    if speech_text and speech_text.strip():  # Ensure input is not empty
         st.success(f"✅ **You said:** {speech_text}")
 
         # **Start Thinking Spinner Before AI Response**
         with st.spinner("🤖 Thinking... Generating response, please wait"):
-            if selected_provider == "Groq":
-                model = get_chatgroq_model(groq_api_key)
-                bot_response = response(model, speech_text)
-            else:
-                chat_with_model = get_openai_model(openai_api_key)
-                bot_response = chat_with_model(speech_text)
+            try:
+                if selected_provider == "Groq":
+                    model = get_chatgroq_model(groq_api_key)
+                    bot_response = response(model, speech_text)
+                else:
+                    chat_with_model = get_openai_model(openai_api_key)
+                    bot_response = chat_with_model(speech_text)
 
-            # **Store Messages for Chat History**
-            st.session_state.messages.append(("user", speech_text))
-            st.session_state.messages.append(("bot", bot_response))
+                # **Store Messages for Chat History**
+                st.session_state.messages.append(("user", speech_text))
+                st.session_state.messages.append(("bot", bot_response))
 
-        st.success(f"🤖 **Bot:** {bot_response}")
+                st.success(f"🤖 **Bot:** {bot_response}")
+
+            except Exception as e:
+                st.error(f"⚠️ Error: {str(e)}")
 
         st.rerun()  # Refresh UI to show new messages
+
+    else:
+        st.error("❌ No speech detected. Please try again.")
 
 # -----------------------------
 # **Clear Chat Button**

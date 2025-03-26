@@ -54,35 +54,21 @@ def take_input_from_browser():
                     recognition.interimResults = false;
                     recognition.maxAlternatives = 1;
 
-                    recognition.onstart = function() {
-                        console.log("🎤 Speech recognition started...");
-                    };
-
                     recognition.onresult = function(event) {
-                        var speechResult = event.results[0][0].transcript;
-                        console.log("Recognized Speech:", speechResult);
-                        recognition.stop();
-                        resolve(speechResult);
-                    };
-
-                    recognition.onspeechend = function() {
-                        console.log("Speech ended.");
-                        recognition.stop();
+                        resolve(event.results[0][0].transcript);
                     };
 
                     recognition.onerror = function(event) {
-                        console.error("Speech recognition error:", event.error);
                         resolve("❌ Error: " + event.error);
                     };
 
                     recognition.start();
                 } catch (error) {
-                    console.error("Speech Recognition not supported.");
-                    resolve("❌ Speech Recognition not supported in your browser.");
+                    resolve("❌ Speech Recognition not supported.");
                 }
             });
         }
-        getSpeech();
+        await getSpeech();
     """
 
     speech_text = st_javascript(script)

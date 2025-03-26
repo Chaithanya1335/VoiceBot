@@ -8,3 +8,4 @@ langchain_groq
 pyaudio
 pipwin
 streamlit_javascript
+streamlit-webrtc
