@@ -43,11 +43,9 @@ from streamlit_javascript import st_javascript
 
 def take_input_from_browser():
     """
-    Uses the browser's built-in speech recognition instead of `pyaudio` and `speech_recognition`.
-    Returns the transcribed speech or an appropriate error message.
+    Uses browser's built-in speech recognition to capture user voice input.
     """
-    speech_text = st_javascript(
-        """
+    script = """
         async function getSpeech() {
             return new Promise((resolve) => {
                 try {
@@ -57,11 +55,12 @@ def take_input_from_browser():
                     recognition.maxAlternatives = 1;
 
                     recognition.onstart = function() {
-                        console.log("Speech recognition started...");
+                        console.log("🎤 Speech recognition started...");
                     };
 
                     recognition.onresult = function(event) {
                         var speechResult = event.results[0][0].transcript;
+                        console.log("Recognized Speech:", speechResult);
                         recognition.stop();
                         resolve(speechResult);
                     };
@@ -73,27 +72,22 @@ def take_input_from_browser():
 
                     recognition.onerror = function(event) {
                         console.error("Speech recognition error:", event.error);
-                        if (event.error === "not-allowed") {
-                            resolve("❌ Microphone permission denied. Please allow access.");
-                        } else if (event.error === "no-speech") {
-                            resolve("❌ No speech detected. Try speaking clearly.");
-                        } else {
-                            resolve("❌ An error occurred. Try again.");
-                        }
+                        resolve("❌ Error: " + event.error);
                     };
 
                     recognition.start();
                 } catch (error) {
-                    console.error("Speech Recognition not supported in this browser.", error);
+                    console.error("Speech Recognition not supported.");
                     resolve("❌ Speech Recognition not supported in your browser.");
                 }
             });
         }
         getSpeech();
-        """
-    )
+    """
 
+    speech_text = st_javascript(script)
     return speech_text
+
 
 
 
