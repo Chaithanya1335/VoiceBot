@@ -1,40 +1,68 @@
-# 🎙️ VoiceBot - AI Chat Assistant  
+# VoiceBot
 
-🚀 **Live Demo:** https://chaithanya1335-voicebot-app-gincmy.streamlit.app/  
+This project is a Python-based **VoiceBot** application that utilizes both **Groq** and **OpenAI** APIs for AI-driven voice interactions.
 
-## 🌟 Overview  
-VoiceBot is an AI-powered chatbot that lets users interact using **voice and text**.  
-It supports **Groq & OpenAI models**, allowing you to choose your preferred provider.  
+## Prerequisites
 
-## 🔥 Features  
-✅ **Voice & Text Input**  
-✅ **Supports Groq & OpenAI models**  
-✅ **User-Friendly Web Interface** (No installation required!)  
+Before running the project, ensure you have the following installed:
 
----
+- Python 3.8 or higher
+- pip (Python package manager)
+- Git
 
-## 🚀 How to Use  
-### **Step 1: Open the App**  
-🔗 **[Click here](https://your-app-name.streamlit.app)** to open the chatbot.  
+## Cloning the Repository
 
-### **Step 2: Enter API Key**  
-- The app will **ask for an API key** before you can chat.  
-- Choose your provider: **Groq or OpenAI**.  
-- Get your API key from one of the following:  
-  - **[OpenAI](https://platform.openai.com/signup) → Generate API Key**  
-  - **[Groq](https://groq.com/) → Generate API Key**  
-- Paste your API key into the **Settings Page** and start chatting!  
+To get started, clone this repository to your local machine:
 
----
+```bash
+git clone https://github.com/Chaithanya1335/VoiceBot.git
+cd VoiceBot
+```
 
-## ⚠️ API Key Requirements  
-- **Your API key is required to access the chatbot.**  
-- **We do NOT store your API key**—it remains secure in your session.  
-- Free-tier API limits may apply, depending on the provider.  
+## Installing Dependencies
 
----
+Navigate to the project directory and install the required Python packages:
 
-## 🛠️ Tech Stack  
-- **Python + Streamlit** for UI  
-- **SpeechRecognition, gTTS, Pyttsx3** for voice  
-- **OpenAI, Groq API** for AI responses  
+```bash
+pip install -r requirements.txt
+```
+
+## Setting Up API Keys
+
+This project requires API keys for **Groq** and **OpenAI**. Follow these steps to obtain and configure them:
+
+### **1. Groq API Key Setup**
+- Sign up at [Groq](https://groq.com) and generate an API key.
+- Copy the key for later use.
+
+### **2. OpenAI API Key Setup**
+- Sign up at [OpenAI](https://openai.com) and generate an API key.
+- Copy the key for later use.
+
+### **Setting API Keys in Streamlit App**
+If you are using the Streamlit app, you can enter your API keys directly in the UI:
+
+1. Run the Streamlit app:
+   ```bash
+   streamlit run app.py
+   ```
+2. In the Streamlit sidebar, you will find input fields for **Groq API Key** and **OpenAI API Key**.
+3. Enter your API keys and submit them to start using the app.
+
+## Running the Application
+
+Once dependencies are installed, run the application:
+
+```bash
+streamlit run app.py
+```
+
+## Troubleshooting
+
+- If you encounter missing packages, run:
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+
+
