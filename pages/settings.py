@@ -48,6 +48,7 @@ if api_key and st.button("✅ Save & Continue to Chat"):
     st.switch_page("app.py")  # **Navigate to the chat page**
     st.stop()
 
-# **If No API Key is Entered**
+# **If No API Key is Entered** 
+
 if not api_key:
     st.warning("⚠️ Please enter your API key to continue.")
