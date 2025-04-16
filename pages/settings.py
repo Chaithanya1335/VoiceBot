@@ -45,7 +45,7 @@ if api_key and st.button("✅ Save & Continue to Chat"):
 
     st.success("✅ API Key saved! Redirecting to chat...")
     time.sleep(1)  # **Short delay before navigation**
-    st.switch_page("app.py")  # **Navigate to the chat page**
+    st.switch_page("app2.py")  # **Navigate to the chat page**
     st.stop()
 
 # **If No API Key is Entered**
